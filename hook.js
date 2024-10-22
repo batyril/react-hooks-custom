@@ -1,31 +1,42 @@
 const React = (() => {
-  let _state;
+  let hooks = [];
+  let currentHookIndex = 0;
   return {
     useState: (initalValue) => {
-      _state = _state || initalValue;
-      const setValue = (newValue) => (_state = newValue);
-      return [_state, setValue];
+      const hookIndex = currentHookIndex;
+      hooks[hookIndex] = hooks[hookIndex] || initalValue;
+      const setValue = (newValue) => (hooks[hookIndex] = newValue);
+
+      currentHookIndex++;
+
+      return [hooks[hookIndex], setValue];
     },
     render: (Component) => {
-      const C = Component();
-      C.render();
-      return C;
+      const instance = Component();
+      instance.render();
+      currentHookIndex = 0;
+      return instance;
     },
-    getState: () => _state,
+    getState: () => hooks,
   };
 })();
 
 const ButtonComponent = () => {
   const [name, setName] = React.useState('Andrey');
+  const [age, setAge] = React.useState(14);
 
   return {
-    click: (inputValue) => setName(inputValue),
-    render: () => console.log('render', { name }),
+    clickName: (inputValue) => setName(inputValue),
+    clickAge: (inputValue) => setAge(inputValue),
+    render: () => console.log('render', { name, age }),
   };
 };
 
 let litleReact = React.render(ButtonComponent);
 
-litleReact.click('Ilnaz');
-
+litleReact.clickName('Ilnaz');
+litleReact.clickAge(234);
+litleReact.clickAge(234);
+litleReact.clickName('Ivan');
 litleReact = React.render(ButtonComponent);
+console.log(React.getState());
