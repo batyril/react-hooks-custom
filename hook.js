@@ -1,4 +1,6 @@
-const React = (() => {
+//TODO: add useEffect
+
+const SimpleReact = (() => {
   let hooks = [];
   let currentHookIndex = 0;
   return {
@@ -22,8 +24,8 @@ const React = (() => {
 })();
 
 const ButtonComponent = () => {
-  const [name, setName] = React.useState('Andrey');
-  const [age, setAge] = React.useState(14);
+  const [name, setName] = SimpleReact.useState('Andrey');
+  const [age, setAge] = SimpleReact.useState(14);
 
   return {
     clickName: (inputValue) => setName(inputValue),
@@ -32,11 +34,10 @@ const ButtonComponent = () => {
   };
 };
 
-let litleReact = React.render(ButtonComponent);
+let root = SimpleReact.render(ButtonComponent);
 
-litleReact.clickName('Ilnaz');
-litleReact.clickAge(234);
-litleReact.clickAge(234);
-litleReact.clickName('Ivan');
-litleReact = React.render(ButtonComponent);
-console.log(React.getState());
+root.clickName('Ilnaz');
+root.clickAge(234);
+root.clickAge(234);
+root.clickName('Ivan');
+root = SimpleReact.render(ButtonComponent);
