@@ -1,5 +1,4 @@
-
-const MyReact = (() => {
+const React = (() => {
   let _state;
   return {
     useState: (initalValue) => {
@@ -7,24 +6,26 @@ const MyReact = (() => {
       const setValue = (newValue) => (_state = newValue);
       return [_state, setValue];
     },
+    render: (Component) => {
+      const C = Component();
+      C.render();
+      return C;
+    },
     getState: () => _state,
   };
 })();
 
 const ButtonComponent = () => {
-  //PROBLEMS: значение не меняется, после кликов 
-  const [name, setName] = MyReact.useState('Andrey');
+  const [name, setName] = React.useState('Andrey');
 
   return {
     click: (inputValue) => setName(inputValue),
-    getName: () => name,
+    render: () => console.log('render', { name }),
   };
 };
 
-const componentInstance = ButtonComponent();
+let litleReact = React.render(ButtonComponent);
 
-console.log(componentInstance.getName());
-console.log(componentInstance.click('Olga'));
-console.log(componentInstance.getName());
+litleReact.click('Ilnaz');
 
-console.log(MyReact.getState());
+litleReact = React.render(ButtonComponent);
